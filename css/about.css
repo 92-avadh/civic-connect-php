@@ -1,0 +1,113 @@
+/* About Page Specific Styles */
+.about-section {
+    padding: 40px 0;
+    background-color: #f4f4f4; 
+}
+
+.about-content-card {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.about-title {
+    font-size: 2.5em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.mission-section,
+.how-it-works-section {
+    margin-bottom: 30px;
+}
+
+.mission-section h2,
+.how-it-works-section h2 {
+    font-size: 1.8em;
+    color: #1A3A5B;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.mission-section p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #555;
+}
+
+.how-it-works-section ol {
+    list-style-type: decimal;
+    padding-left: 25px;
+}
+
+.how-it-works-section ol li {
+    font-size: 1.1em;
+    margin-bottom: 12px;
+    color: #555;
+}
+
+.how-it-works-section ol li:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Developer Card Styles --- */
+.section-card {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.developer-card {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.developer-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.dev-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover; /* This is the key property to fix the image stretching */
+    margin: 0 auto 20px auto; /* Centering the image */
+    border: 4px solid #fff;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.dev-name {
+    font-size: 1.25em;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.dev-contact {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.dev-contact a {
+    color: #495057;
+    font-size: 1.4em;
+    transition: color 0.3s ease;
+}
+
+.dev-contact a:hover {
+    color: #1A3A5B; /* Primary theme color */
+}

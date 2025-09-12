@@ -1,0 +1,211 @@
+/* Hero Section (Home specific) */
+.hero {
+    text-align: center;
+    padding: 80px 0;
+    background-color: #e9f5ff; /* Light blue background as in video */
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: 3em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Quick Links */
+.quick-links {
+    margin-bottom: 50px;
+}
+
+.quick-links h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2em;
+    color: #333;
+}
+
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.link-item {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.link-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.link-item i {
+    font-size: 3em;
+    color: #1A3A5B; /* Primary blue for icons */
+    margin-bottom: 15px;
+}
+
+.link-item p {
+    font-weight: bold;
+}
+
+/* News & Updates / Learn & Participate */
+.two-column-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap; /* Allows columns to wrap on smaller screens */
+    margin-bottom: 50px; /* Ensure there's space below the entire two-column section */
+}
+
+.news-updates {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex: 1; /* Makes columns take equal width */
+    min-width: 300px; /* Minimum width before wrapping */
+    overflow-y: hidden; /* Added to hide the scrollbar */
+    margin-bottom: 0; /* Changed to 0 as .two-column-section handles it */
+    min-height: 380px; /* Set a minimum height to match 'Learn & Participate' */
+    display: flex; /* Use flex to distribute content within the card */
+    flex-direction: column; /* Arrange content vertically */
+    justify-content: space-between; /* Distribute content vertically */
+}
+
+.learn-participate {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex: 1; /* Makes columns take equal width */
+    min-width: 300px; /* Minimum width before wrapping */
+    overflow-y: hidden; /* Added to hide the scrollbar */
+    margin-bottom: 0; /* Changed to 0 as .two-column-section handles it */
+    min-height: 380px; /* Set a minimum height to match 'News & Updates' */
+    display: flex; /* Use flex to distribute content within the card */
+    flex-direction: column; /* Arrange content vertically */
+    justify-content: space-between; /* Distribute content vertically */
+}
+
+.news-updates h2,
+.learn-participate h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.news-item {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px dotted #eee;
+}
+
+.news-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.news-item .date {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.news-item .title {
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.news-item .title:hover {
+    color: #1A3A5B; /* Primary blue for hover */
+}
+
+/* Join CivicConnect */
+.join-section {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.join-section h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.join-section p {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.join-options {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.join-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 350px; /* Fixed width for cards */
+    max-width: 100%; /* Ensures it doesn't overflow */
+}
+
+.join-card i {
+    font-size: 4em;
+    color: #1A3A5B; /* Primary blue for icons */
+    margin-bottom: 20px;
+}
+
+.join-card h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.join-card p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.join-card .btn {
+    display: inline-block;
+    background-color: #1A3A5B; /* Primary blue for buttons */
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.join-card .btn:hover {
+    background-color: #122A3F; /* Darker shade for hover */
+    color: #fff; /* NEW: Keep text white on hover */
+}
+
+.join-card .government-icon {
+    color: #28a745; /* Green for government official (keeping this distinct) */
+}

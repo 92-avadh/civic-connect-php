@@ -1,0 +1,5 @@
+# Ignore database connection details
+db_connection.php
+
+# Ignore user-uploaded files
+/uploads/

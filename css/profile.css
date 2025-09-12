@@ -1,0 +1,77 @@
+/* Profile Page - general styling for display */
+.profile-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.profile-card h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 2em;
+}
+
+.profile-info p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.profile-info p strong {
+    color: #333;
+    display: inline-block;
+    min-width: 100px; /* Align labels */
+}
+
+.profile-card .btn-logout {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #dc3545; /* Red for logout */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.profile-card .btn-logout:hover {
+    background-color: #c82333;
+}
+
+.danger-zone {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 30px;
+}
+
+.danger-zone h3 {
+    margin-top: 0;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.danger-zone .btn-delete {
+    background-color: #dc3545; /* Red for delete */
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+.danger-zone .btn-delete:hover {
+    background-color: #c82333;
+}

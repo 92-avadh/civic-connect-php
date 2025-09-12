@@ -1,0 +1,109 @@
+block within this file.
+// It is designed to be included by index.php.
+// No <head>, <body>, <header>, <footer> tags are needed here.
+
+// Data for Key Rights (each will be a card)
+$rights = [
+    [
+        'title' => 'Right to Information (RTI)',
+        'description' => 'Access information from government bodies, promoting transparency and accountability.'
+    ],
+    [
+        'title' => 'Right to Grievance Redressal',
+        'description' => 'File complaints or grievances against civic issues and expect a timely response and resolution.'
+    ],
+    [
+        'title' => 'Right to Clean Environment',
+        'description' => 'Demand a clean and healthy living environment from local authorities as a fundamental right.'
+    ],
+    [
+        'title' => 'Right to Participate',
+        'description' => 'Participate in local governance decisions through elections, public hearings, and civic engagement platforms like CivicConnect.'
+    ]
+];
+
+// Data for Key Duties (each will be a card)
+$duties = [
+    [
+        'title' => 'Pay Taxes',
+        'description' => 'Fulfill your tax obligations (property tax, etc.) which are essential to fund public services and infrastructure.'
+    ],
+    [
+        'title' => 'Obey Laws',
+        'description' => 'Abide by local laws and regulations, including traffic rules, municipal bylaws, and other civic guidelines.'
+    ],
+    [
+        'title' => 'Civic Participation',
+        'description' => 'Actively report issues, provide constructive feedback, and participate in community improvement initiatives.'
+    ],
+    [
+        'title' => 'Protect Public Property',
+        'description' => 'Contribute to the upkeep and preservation of public infrastructure, parks, and facilities.'
+    ],
+    [
+        'title' => 'Environmental Responsibility',
+        'description' => 'Act responsibly towards the environment by conserving resources and encouraging sustainable practices.'
+    ]
+];
+?>
+
+<style>
+    /* Styles for Law Literacy Lounge Page (EMBEDDED HERE) */
+
+    .section-card { /* Reusing existing .section-card style from styles.css or similar for main container */
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-bottom: 50px;
+        margin-top: 30px;
+    }
+
+    .section-heading { /* Reusing existing .section-heading style */
+        font-size: 2em;
+        color: #1A3A5B;
+        text-align: center;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .section-intro { /* Reusing existing .section-intro style */
+        font-size: 1.1em;
+        color: #666;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    /* Individual Law Literacy Cards (reusing civic-sense-card style for consistency) */
+    .civic-sense-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+        background-color: #f8f8f8; /* Light grey background for distinction */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Noticeable shadow */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* Align content to the top */
+        align-items: center; /* Center content horizontally */
+        height: 100%; /* Ensure cards fill height in a row */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .civic-sense-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Stronger hover shadow */
+    }
+    .civic-sense-card h4 {
+        font-size: 1.35rem;
+        margin-bottom: 10px;
+        color: #333;
+        text-align: center;
+    }
+    .civic-sense-card p {
+        font-size: 0.95rem;
+        color: #666;
+        margin-bottom: 0; /* No margin below the last paragraph */
+        flex-grow: 1; /* Allow description to take space */
+        text-align: center;
+    }

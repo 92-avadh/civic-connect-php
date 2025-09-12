@@ -1,0 +1,130 @@
+/* --- Additional Styles for About Surat Page Structure --- */
+
+/* Ensuring the main section-card has a distinct background and shadow */
+.section-card {
+    background-color: #fff; /* White background for the main section containers */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Subtle shadow for the main section containers */
+    margin-bottom: 50px; /* Space below each main section card */
+    margin-top: 30px; /* Space above the section-card if needed */
+}
+
+/* Specific styling for headings within these section-cards */
+.section-heading {
+    font-size: 2em;
+    color: #1A3A5B;
+    text-align: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Specific styling for introductory paragraphs in sections */
+.section-intro {
+    font-size: 1.1em;
+    color: #666;
+    text-align: center;
+    margin-bottom: 40px; /* Space below the intro text */
+}
+
+/* Refined Official Card Styles for structure and professionalism */
+.official-card {
+    background-color: #fff; /* Individual card background is white */
+    border: 1px solid #e0e0e0; /* Subtle border */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* Lighter, more subtle shadow for individual cards */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.official-card:hover {
+    transform: translateY(-3px); /* Slightly less lift on hover */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12); /* Slightly more prominent shadow on hover */
+}
+
+.official-photo {
+    width: 120px; /* Consistent size */
+    height: 120px; /* Consistent size */
+    object-fit: cover;
+    border: 3px solid #1A3A5B;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Photo shadow */
+}
+
+.official-card h4 {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #333;
+    margin-top: 15px; /* Space from photo */
+    margin-bottom: 5px; /* Space below name */
+    text-align: center;
+}
+
+.official-card p.text-muted { /* Post */
+    font-size: 0.95em;
+    color: #777;
+    margin-bottom: 3px; /* Space below post */
+    text-align: center;
+}
+
+.official-card p.text-secondary.small { /* Department */
+    font-size: 0.85em;
+    color: #888;
+    margin-bottom: 0; /* No margin below last element in card */
+    text-align: center;
+}
+
+/* Monument Card Styles - Ensure consistency with official cards */
+.monument-card {
+    background-color: #fff; /* White background for monument cards */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* Subtle shadow for individual cards */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.monument-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.monument-photo {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.monument-card h4 {
+    font-size: 1.3em;
+    color: #333;
+    margin-top: 15px;
+    margin-bottom: 5px; /* Spacing below monument name */
+    text-align: center;
+}
+
+.monument-card p {
+    font-size: 0.95em;
+    color: #666;
+    text-align: center;
+    margin-bottom: 0; /* No margin below last element in card */
+}
+
+.monument-card p.text-muted { /* Location text */
+    margin-bottom: 10px; /* Space below location */
+}
+
+.monument-card .fa-map-marker-alt {
+    color: #dc3545;
+    margin-right: 5px;
+}

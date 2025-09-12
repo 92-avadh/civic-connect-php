@@ -1,0 +1,310 @@
+/* Basic Reset & Body Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+    padding-top: 60px; /* Padding to prevent content from going under fixed header */
+}
+
+main {
+    opacity: 0;
+    animation: fadeAndSlideIn 0.4s ease-in-out forwards;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* Header */
+.header {
+    background-color: #fff;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping for mobile */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    text-decoration: none;
+    gap: 10px;
+}
+
+.logo .logo-cc {
+    background-color: #1A3A5B;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 4px 6px;
+    border-radius: 3px;
+    line-height: 1;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 38px;
+}
+
+.logo .logo-name {
+    font-weight: normal;
+    color: #444;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav ul li {
+    margin-left: 20px;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: #555;
+    font-weight: bold;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.nav ul li a:hover {
+    color: #1A3A5B;
+}
+
+/* Authentication Buttons */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.auth-buttons-desktop {
+    display: flex; /* Show on desktop */
+}
+
+.mobile-auth-link {
+    display: none; /* Hide on desktop */
+}
+
+.logout-btn {
+    color: #dc3545;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.logout-btn:hover {
+    color: #c82333;
+}
+
+.login-btn {
+    background-color: #1A3A5B;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #122A3F;
+}
+
+/* --- Menu Toggle Button (for mobile) --- */
+.menu-toggle {
+    display: none; /* Hidden by default on large screens */
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.menu-toggle .bar {
+    height: 3px;
+    width: 25px;
+    background-color: #333;
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+/* Footer */
+.footer {
+    background-color: #1A3A5B;
+    color: #f4f4f4;
+    padding: 40px 0;
+}
+
+.footer .container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-section h3 {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #E0F2FF;
+}
+
+.footer-section p {
+    color: #ccc;
+    margin-bottom: 8px;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #555;
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+/* Back to Home button */
+.back-to-home {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+    font-size: 0.95em;
+}
+
+.back-to-home a {
+    color: #1A3A5B;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.back-to-home a:hover {
+    color: #122A3F;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex; /* Show the hamburger icon */
+    }
+
+    .nav {
+        display: none; /* Hide the nav container by default */
+        width: 100%;
+        order: 3; /* Ensure it appears below the logo and toggle button */
+        margin-top: 15px;
+        background-color: #fff;
+        padding: 15px 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .nav.nav-active {
+        display: block; /* Show nav when active */
+    }
+
+    .nav ul {
+        flex-direction: column; /* Stack nav links vertically */
+        align-items: center;
+    }
+
+    .nav ul li {
+        margin: 10px 0;
+    }
+
+    .auth-buttons-desktop {
+        display: none; /* Hide the desktop login/logout buttons */
+    }
+
+    .mobile-auth-link {
+        display: block; /* Show login button inside the mobile menu */
+        margin-top: 15px;
+    }
+
+    .login-btn-mobile {
+        background-color: #1A3A5B;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+    
+    /* Other content responsive rules */
+    .hero h1 { font-size: 2.2em; }
+    .hero p { font-size: 1em; }
+    .two-column-section { flex-direction: column; }
+    .news-updates { min-width: unset; margin-bottom: 20px; }
+    .learn-participate { min-width: unset; margin-bottom: 30px; }
+    .join-options { flex-direction: column; align-items: center; }
+    .footer .container { flex-direction: column; text-align: center; }
+    .footer-section { margin-bottom: 20px; }
+    .about-content-card { padding: 25px; margin: 20px 15px; }
+    .about-title { font-size: 2em; }
+    .mission-section h2, .how-it-works-section h2 { font-size: 1.5em; }
+    .mission-section p, .how-it-works-section ol li { font-size: 1em; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-form-card, .contact-info-card { padding: 25px; }
+    .contact-title { font-size: 2em; }
+    .contact-intro { font-size: 1em; margin-bottom: 30px; }
+    .contact-form-card h2, .contact-info-card h2 { font-size: 1.5em; }
+}
+
+@media (max-width: 480px) {
+    .links-grid {
+        grid-template-columns: 1fr; /* Stack quick links on very small screens */
+    }
+}
+
+/* Page load animation */
+@keyframes fadeAndSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
