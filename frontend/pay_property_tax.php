@@ -31,6 +31,6 @@
     </div>
 
     <div style="text-align: center; margin-top: 40px;">
-        <a href="#" class="btn-primary disabled" style="text-decoration: none; display: inline-block; padding: 12px 30px;">Proceed to Pay Tax</a>
+        <a href="#" class="btn-primary disabled" style="text-decoration: none; display: inline-block; padding: 12px 30px;">Feature will be introduced soon</a>
     </div>
 </section>
