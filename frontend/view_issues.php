@@ -7,6 +7,7 @@ $issues = [];
 $error = '';
 $is_official = isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'official';
 $is_citizen = isset($_SESSION['user_id']) && !$is_official;
+$alert_status = $_GET['status'] ?? ''; // Get status for alerts
 
 try {
     if ($is_official) {
@@ -44,12 +45,15 @@ function getStatusClass($status) {
 
     <h2 class="text-center mb-4"><?php echo $is_official ? 'All Reported Issues' : 'Your Reported Issues'; ?></h2>
 
-    <?php if (isset($_GET['status']) && $_GET['status'] === 'success'): ?>
+    <?php if ($alert_status === 'success'): ?>
         <div id="status-alert" class="alert alert-success text-center">Status updated successfully!</div>
-    <?php elseif (isset($_GET['status']) && $_GET['status'] === 'error'): ?>
+    <?php elseif ($alert_status === 'error'): ?>
         <div id="status-alert" class="alert alert-danger text-center">Failed to update status.</div>
+    <?php elseif ($alert_status === 'delete_success'): ?>
+        <div id="status-alert" class="alert alert-success text-center">Issue deleted successfully!</div>
+    <?php elseif ($alert_status === 'delete_error'): ?>
+        <div id="status-alert" class="alert alert-danger text-center">Error deleting issue.</div>
     <?php endif; ?>
-    
     <?php if (empty($issues)): ?>
         <div class="text-center alert alert-info">
             No issues found.
@@ -94,10 +98,11 @@ function getStatusClass($status) {
                                 $button_text = 'Mark as Resolved';
                                 $button_class = 'btn-success';
                             } else {
-                                $is_disabled = true;
+                                $is_disabled = true; // This disables the "Mark as..." button
                                 $button_text = 'Action Complete';
                             }
                             ?>
+                            
                             <form action="backend/update_status.php" method="POST" style="display: inline-block;">
                                 <input type="hidden" name="issue_id" value="<?php echo $issue['id']; ?>">
                                 <input type="hidden" name="new_status" value="<?php echo $next_status; ?>">
@@ -106,14 +111,19 @@ function getStatusClass($status) {
                                 </button>
                             </form>
                             
-                            <?php if ($issue['status'] != 'rejected' && !$is_disabled): ?>
+                            <?php if ($issue['status'] != 'rejected' && $issue['status'] != 'resolved'): ?>
                                 <form action="backend/update_status.php" method="POST" style="display: inline-block;">
                                     <input type="hidden" name="issue_id" value="<?php echo $issue['id']; ?>">
                                     <input type="hidden" name="new_status" value="rejected">
                                     <button type="submit" class="btn btn-danger btn-sm">Reject</button>
                                 </form>
                             <?php endif; ?>
-                        </div>
+
+                            <form action="backend/delete_issue.php" method="POST" style="display: inline-block;" onsubmit="return confirm('Are you sure you want to permanently delete this issue?');">
+                                <input type="hidden" name="issue_id" value="<?php echo $issue['id']; ?>">
+                                <button type="submit" class="btn btn-dark btn-sm">Delete</button>
+                            </form>
+                            </div>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
@@ -121,23 +131,66 @@ function getStatusClass($status) {
     <?php endif; ?>
 </section>
 <style>
+    /* --- Styles for buttons and alerts --- */
     .status-actions {
         display: flex;
         gap: 10px;
         margin-top: 10px;
+        flex-wrap: wrap; /* Added for responsiveness */
     }
     .btn-success {
         background-color: #28a745;
         border-color: #28a745;
         color: white;
     }
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+    }
+    .btn-dark {
+        background-color: #343a40;
+        border-color: #343a40;
+        color: white;
+    }
+    /* This style is for the "Mark as..." button */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        border-radius: 0.2rem;
+    }
+    .btn {
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        user-select: none;
+        border: 1px solid transparent;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    .btn:disabled {
+        opacity: 0.65;
+        pointer-events: none;
+    }
+    .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 5px; }
+    .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .alert-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .alert-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    .text-center { text-align: center; }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const statusAlert = document.getElementById('status-alert');
     
-    // If the status message exists, hide it after 2 seconds
+    // If the status message exists, hide it after 3 seconds
     if (statusAlert) {
         setTimeout(function() {
             statusAlert.style.transition = 'opacity 0.5s ease';
@@ -145,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(function() {
                 statusAlert.style.display = 'none';
             }, 500); // Wait for the fade out to finish
-        }, 2000); // 2000 milliseconds = 2 seconds
+        }, 3000); // 3000 milliseconds = 3 seconds
     }
 
     // Clean the URL to prevent the message from showing on refresh

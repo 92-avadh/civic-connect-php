@@ -37,10 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['track_application'])) 
     $parts = explode('-', $applicationIdInput);
     
     if (count($parts) === 3 && is_numeric($parts[2])) {
+        $id_to_search = $parts[2];
         $type = $parts[1];
         $table_name = '';
         $title_prefix = '';
-        $number_column = 'application_number';
+        $number_column = 'id'; 
 
         switch ($type) {
             case 'BC': $table_name = 'birth_certificates'; $title_prefix = 'Birth Certificate'; break;
@@ -52,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['track_application'])) 
         if ($table_name) {
             try {
                 $stmt = $pdo->prepare("SELECT *, '$title_prefix' as app_title FROM `$table_name` WHERE $number_column = ?");
-                $stmt->execute([$applicationIdInput]);
+                $stmt->execute([$id_to_search]); 
                 $searchedApplication = $stmt->fetch();
                 if (!$searchedApplication) $message = "No application found with that ID.";
             } catch (PDOException $e) {
@@ -73,6 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['find_to_edit'])) {
         $parts = explode('-', $applicationIdInput);
 
         if (count($parts) === 3 && is_numeric($parts[2])) {
+            $id_to_search = $parts[2];
             $type = $parts[1];
             switch ($type) {
                 case 'BC': $table_name = 'birth_certificates'; $applicationType = 'birth'; break;
@@ -82,8 +84,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['find_to_edit'])) {
             }
 
             if (!$error) {
-                $stmt = $pdo->prepare("SELECT * FROM `$table_name` WHERE application_number = ?");
-                $stmt->execute([$applicationIdInput]);
+                $stmt = $pdo->prepare("SELECT * FROM `$table_name` WHERE id = ?");
+                $stmt->execute([$id_to_search]);
                 $applicationToEdit = $stmt->fetch();
 
                 if (!$applicationToEdit) {
@@ -113,8 +115,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_application']))
         try {
             switch ($app_type) {
                 case 'birth':
-                    $stmt = $pdo->prepare("UPDATE birth_certificates SET child_full_name = ?, date_of_birth = ?, place_of_birth = ? WHERE id = ? AND user_id = ?");
-                    $stmt->execute([$_POST['child_full_name'], $_POST['date_of_birth'], $_POST['place_of_birth'], $app_id, $current_user_id]);
+                    // --- FIX 1: Use correct database column names in the UPDATE query ---
+                    $stmt = $pdo->prepare("UPDATE birth_certificates SET child_full_name = ?, child_dob = ?, hospital_name = ? WHERE id = ? AND user_id = ?");
+                    // Use the correct $_POST values from the updated form
+                    $stmt->execute([$_POST['child_full_name'], $_POST['date_of_birth'], $_POST['hospital_name'], $app_id, $current_user_id]);
                     break;
                 case 'death':
                     $stmt = $pdo->prepare("UPDATE death_certificates SET deceased_full_name = ?, date_of_death = ?, place_of_death = ? WHERE id = ? AND user_id = ?");
@@ -128,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_application']))
             if ($stmt->rowCount() > 0) {
                 $message = "Application updated successfully!";
             } else {
-                $error = "Update failed. The application might be locked or you don't have permission.";
+                $error = "Update failed or no changes were made. The application might be locked or you don't have permission.";
             }
         } catch (PDOException $e) {
             $error = "Database error during update.";
@@ -139,32 +143,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_application']))
 
 <link rel="stylesheet" href="path/to/your/main.css"> 
 <style>
-    .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
-    .text-center { text-align: center; }
-    .mb-3 { margin-bottom: 1rem; }
-    .mb-4 { margin-bottom: 1.5rem; }
-    .mb-5 { margin-bottom: 3rem; }
-    .mt-5 { margin-top: 3rem; }
-    .form-container { background: #f9f9f9; padding: 2rem; border-radius: 8px; border: 1px solid #ddd; }
-    .form-group { margin-bottom: 1.5rem; }
-    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
-    .form-group input[type="text"], .form-group input[type="date"], .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; }
-    .btn-primary { background-color: #007bff; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; display: block; width: 100%; font-size: 1rem; }
-    .btn-primary:hover { background-color: #0056b3; }
-    .btn-primary:disabled { background-color: #ccc; cursor: not-allowed; }
-    .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 5px; }
-    .alert-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-    .alert-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
-    .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-    .view-navigation { text-align: center; margin-bottom: 2rem; border-bottom: 1px solid #ddd; }
-    .view-navigation a { display: inline-block; padding: 0.8rem 1.5rem; text-decoration: none; font-weight: 500; color: #555; border-bottom: 3px solid transparent; margin-bottom: -1px; }
-    .view-navigation a.active { color: #0056b3; border-bottom-color: #0056b3; }
-    .issue-card { border: 1px solid #ddd; padding: 1.5rem; border-radius: 5px; margin-top: 1.5rem; }
-    .status-open { border-left: 5px solid #ffc107; }
-    .status-inprogress { border-left: 5px solid #007bff; }
-    .status-resolved { border-left: 5px solid #28a745; }
-    .status-rejected { border-left: 5px solid #dc3545; }
-    .note { text-align: center; margin-top: 1rem; color: #666; font-size: 0.9em; }
+    /* This is the CSS fix from the previous step (scoped to 'main') */
+    main .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+    main .text-center { text-align: center; }
+    main .mb-3 { margin-bottom: 1rem; }
+    main .mb-4 { margin-bottom: 1.5rem; }
+    main .mb-5 { margin-bottom: 3rem; }
+    main .mt-5 { margin-top: 3rem; }
+    main .form-container { background: #f9f9f9; padding: 2rem; border-radius: 8px; border: 1px solid #ddd; }
+    main .form-group { margin-bottom: 1.5rem; }
+    main .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+    main .form-group input[type="text"], main .form-group input[type="date"], main .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; }
+    main .btn-primary { background-color: #007bff; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; display: block; width: 100%; font-size: 1rem; }
+    main .btn-primary:hover { background-color: #0056b3; }
+    main .btn-primary:disabled { background-color: #ccc; cursor: not-allowed; }
+    main .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 5px; }
+    main .alert-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    main .alert-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    main .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    main .view-navigation { text-align: center; margin-bottom: 2rem; border-bottom: 1px solid #ddd; }
+    main .view-navigation a { display: inline-block; padding: 0.8rem 1.5rem; text-decoration: none; font-weight: 500; color: #555; border-bottom: 3px solid transparent; margin-bottom: -1px; }
+    main .view-navigation a.active { color: #0056b3; border-bottom-color: #0056b3; }
+    main .issue-card { border: 1px solid #ddd; padding: 1.5rem; border-radius: 5px; margin-top: 1.5rem; }
+    main .status-open { border-left: 5px solid #ffc107; }
+    main .status-inprogress { border-left: 5px solid #007bff; }
+    main .status-resolved { border-left: 5px solid #28a745; }
+    main .status-rejected { border-left: 5px solid #dc3545; }
+    main .note { text-align: center; margin-top: 1rem; color: #666; font-size: 0.9em; }
 </style>
 
 <section class="container mt-5">
@@ -217,7 +222,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_application']))
 
                 <?php if ($applicationToEdit): ?>
                     <hr>
-                    <h4 class="text-center" style="margin-top: 2rem;">Editing Application: <?php echo htmlspecialchars($applicationToEdit['application_number']); ?></h4>
+                    <h4 class="text-center" style="margin-top: 2rem;">Editing Application: <?php echo htmlspecialchars($applicationIdInput); ?></h4>
                     <form action="?page=track_application&view=edit" method="POST">
                         <input type="hidden" name="update_application" value="1">
                         <input type="hidden" name="app_id" value="<?php echo $applicationToEdit['id']; ?>">
@@ -230,11 +235,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_application']))
                             </div>
                             <div class="form-group">
                                 <label for="date_of_birth">Date of Birth</label>
-                                <input type="date" id="date_of_birth" name="date_of_birth" value="<?php echo htmlspecialchars($applicationToEdit['date_of_birth']); ?>" required>
+                                <input type="date" id="date_of_birth" name="date_of_birth" value="<?php echo htmlspecialchars($applicationToEdit['child_dob']); ?>" required>
                             </div>
                             <div class="form-group">
-                                <label for="place_of_birth">Place of Birth</label>
-                                <input type="text" id="place_of_birth" name="place_of_birth" value="<?php echo htmlspecialchars($applicationToEdit['place_of_birth']); ?>" required>
+                                <label for="hospital_name">Hospital of Birth</label>
+                                <input type="text" id="hospital_name" name="hospital_name" value="<?php echo htmlspecialchars($applicationToEdit['hospital_name']); ?>" required>
                             </div>
                         <?php elseif ($applicationType === 'death'): ?>
                             <div class="form-group">

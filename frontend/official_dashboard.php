@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'official') {
 
 $applications = [];
 $error = '';
+$alert_status = $_GET['status'] ?? ''; // Get status for alerts
 
 try {
     // Fetch all types of applications
@@ -56,7 +57,19 @@ function get_status_tag($status) {
 
 function render_actions($app, $type) {
     if ($app['status'] === 'pending') {
-        echo '<form action="backend/update_status.php" method="POST"><input type="hidden" name="app_id" value="'.$app['id'].'"><input type="hidden" name="app_type" value="'.$type.'"><input type="hidden" name="new_status" value="in-progress"><button type="submit" class="btn-action start-review">Start Review</button></form>';
+        // START REVIEW BUTTON
+        echo '<form action="backend/update_status.php" method="POST" style="display:inline-block;"><input type="hidden" name="app_id" value="'.$app['id'].'"><input type="hidden" name="app_type" value="'.$type.'"><input type="hidden" name="new_status" value="in-progress"><button type="submit" class="btn-action start-review">Start Review</button></form>';
+        
+        // --- NEW DELETE BUTTON ---
+        // Posts to a new delete_application.php script
+        // Includes an 'onsubmit' confirmation dialog
+        echo '<form action="backend/delete_application.php" method="POST" style="display:inline-block;" onsubmit="return confirm(\'Are you sure you want to permanently delete this application?\');">';
+        echo '<input type="hidden" name="app_id" value="'.$app['id'].'">';
+        echo '<input type="hidden" name="app_type" value="'.$type.'">';
+        echo '<button type="submit" class="btn-action reject">Delete</button>'; // Uses 'reject' class for red color
+        echo '</form>';
+        // --- END NEW DELETE BUTTON ---
+
     } elseif ($app['status'] === 'in-progress') {
         echo '<form action="backend/update_status.php" method="POST" style="display:inline-block;"><input type="hidden" name="app_id" value="'.$app['id'].'"><input type="hidden" name="app_type" value="'.$type.'"><input type="hidden" name="new_status" value="approved"><button type="submit" class="btn-action approve">Approve</button></form>';
         echo '<form action="backend/update_status.php" method="POST" style="display:inline-block;"><input type="hidden" name="app_id" value="'.$app['id'].'"><input type="hidden" name="app_type" value="'.$type.'"><input type="hidden" name="new_status" value="rejected"><button type="submit" class="btn-action reject">Reject</button></form>';
@@ -67,6 +80,15 @@ function render_actions($app, $type) {
 <section class="container mt-5">
     <h1 class="text-center mb-5">Admin Dashboard</h1>
 
+    <?php if ($alert_status === 'delete_success'): ?>
+        <div id="status-alert" class="alert alert-success text-center">Application deleted successfully!</div>
+    <?php elseif ($alert_status === 'delete_error'): ?>
+        <div id="status-alert" class="alert alert-danger text-center">Error deleting application.</div>
+    <?php elseif ($alert_status === 'success'): ?>
+         <div id="status-alert" class="alert alert-success text-center">Status updated successfully!</div>
+    <?php elseif ($alert_status === 'error'): ?>
+        <div id="status-alert" class="alert alert-danger text-center">Failed to update status.</div>
+    <?php endif; ?>
     <div class="app-section">
         <h3>Birth Certificate Applications (<?php echo count($applications['birth']); ?>)</h3>
         <div class="app-table">
@@ -158,4 +180,36 @@ function render_actions($app, $type) {
     .start-review { background-color: #ffc107; color: #212529; }
     .approve { background-color: #28a745; color: white; }
     .reject { background-color: #dc3545; color: white; }
+
+    /* --- Styles for new alerts --- */
+    .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 5px; }
+    .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .alert-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .text-center { text-align: center; }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusAlert = document.getElementById('status-alert');
+    
+    // If the status message exists, hide it after 3 seconds
+    if (statusAlert) {
+        setTimeout(function() {
+            statusAlert.style.transition = 'opacity 0.5s ease';
+            statusAlert.style.opacity = '0';
+            setTimeout(function() {
+                statusAlert.style.display = 'none';
+            }, 500); // Wait for the fade out to finish
+        }, 3000); // 3000 milliseconds = 3 seconds
+    }
+
+    // Clean the URL to prevent the message from showing on refresh
+    if (window.history.replaceState) {
+        const url = new URL(window.location.href);
+        if (url.searchParams.has('status')) {
+            url.searchParams.delete('status');
+            window.history.replaceState({path: url.href}, '', url.href);
+        }
+    }
+});
+</script>
