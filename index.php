@@ -66,7 +66,7 @@ switch ($page) {
                 </a>
                 <a href="index.php?page=track_application" class="link-item">
                     <i class="fas fa-search"></i>
-                    <p><?php echo $trackAppLinkText; ?></p>
+                    <p>About Application</p>
                 </a>
             </div>
         </section>
