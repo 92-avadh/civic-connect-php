@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['track_application'])) 
     $parts = explode('-', $applicationIdInput);
     
     if (count($parts) === 3 && is_numeric($parts[2])) {
-        $id_to_search = $parts[2];
+        $type = strtoupper($parts[1]); 
         $type = $parts[1];
         $table_name = '';
         $title_prefix = '';
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['find_to_edit'])) {
 
         if (count($parts) === 3 && is_numeric($parts[2])) {
             $id_to_search = $parts[2];
-            $type = $parts[1];
+            $type = strtoupper($parts[1]); 
             switch ($type) {
                 case 'BC': $table_name = 'birth_certificates'; $applicationType = 'birth'; break;
                 case 'DC': $table_name = 'death_certificates'; $applicationType = 'death'; break;
@@ -121,8 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_application']))
                     $stmt->execute([$_POST['child_full_name'], $_POST['date_of_birth'], $_POST['hospital_name'], $app_id, $current_user_id]);
                     break;
                 case 'death':
-                    $stmt = $pdo->prepare("UPDATE death_certificates SET deceased_full_name = ?, date_of_death = ?, place_of_death = ? WHERE id = ? AND user_id = ?");
-                    $stmt->execute([$_POST['deceased_full_name'], $_POST['date_of_death'], $_POST['place_of_death'], $app_id, $current_user_id]);
+                    $stmt = $pdo->prepare("UPDATE death_certificates SET deceased_name = ?, date_of_death = ?, place_of_death = ? WHERE id = ? AND user_id = ?");                    $stmt->execute([$_POST['deceased_full_name'], $_POST['date_of_death'], $_POST['place_of_death'], $app_id, $current_user_id]);
                     break;
                 case 'water':
                     $stmt = $pdo->prepare("UPDATE water_connections SET applicant_name = ?, property_address = ? WHERE id = ? AND user_id = ?");
@@ -241,11 +240,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_application']))
                                 <label for="hospital_name">Hospital of Birth</label>
                                 <input type="text" id="hospital_name" name="hospital_name" value="<?php echo htmlspecialchars($applicationToEdit['hospital_name']); ?>" required>
                             </div>
-                        <?php elseif ($applicationType === 'death'): ?>
-                            <div class="form-group">
-                                <label for="deceased_full_name">Deceased's Full Name</label>
-                                <input type="text" id="deceased_full_name" name="deceased_full_name" value="<?php echo htmlspecialchars($applicationToEdit['deceased_full_name']); ?>" required>
-                            </div>
+                            <?php elseif ($applicationType === 'death'): ?>
+                                <div class="form-group">
+                                    <label for="deceased_full_name">Deceased's Full Name</label>
+                                    <input type="text" id="deceased_full_name" name="deceased_full_name" value="<?php echo htmlspecialchars($applicationToEdit['deceased_name']); ?>" required>
+                                </div>
                             <div class="form-group">
                                 <label for="date_of_death">Date of Death</label>
                                 <input type="date" id="date_of_death" name="date_of_death" value="<?php echo htmlspecialchars($applicationToEdit['date_of_death']); ?>" required>
